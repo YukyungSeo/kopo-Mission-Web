@@ -1,0 +1,18 @@
+-- 게시판 테이블 생성
+
+drop table t_board;
+create table t_board(
+    no          number(5)       primary key
+    , title     varchar2(200)   not null
+    , writer    varchar2(50)    not null
+    , content   varchar2(4000)  not null
+    , view_cnt  number(5)       default 0
+    , reg_date  date            default sysdate
+);
+
+drop sequence seq_t_board_no;
+create sequence seq_t_board_no;
+
+select * from t_board;
+
+insert into t_board(no, title, writer, content) values(seq_t_board_no.nextval, '제목입니다', '홍길동', '내용입니다');
