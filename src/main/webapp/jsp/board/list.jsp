@@ -52,12 +52,16 @@ ResultSet rs = pstmt.executeQuery();
 
 			<%
 			while (rs.next()) {
+				int no = rs.getInt("no");
+				String title = rs.getString("title");
+				String writer = rs.getString("writer");
+				String regDate = rs.getString("reg_date");
 			%>
 			<tr>
-				<td><%=rs.getInt("no")%></td>
-				<td><%=rs.getString("title")%></td>
-				<td><%=rs.getString("writer")%></td>
-				<td><%=rs.getString("reg_date")%></td>
+				<td><%=no%></td>
+				<td><a href="detail.jsp?no=<%=no%>"><%=title%></a></td>
+				<td><%=writer%></td>
+				<td><%=regDate%></td>
 			</tr>
 			<%
 			}

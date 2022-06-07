@@ -13,6 +13,11 @@ create table t_board(
 drop sequence seq_t_board_no;
 create sequence seq_t_board_no;
 
+alter sequence seq_t_board_no nocache;
+
 select * from t_board;
 
 insert into t_board(no, title, writer, content) values(seq_t_board_no.nextval, '제목입니다', '홍길동', '내용입니다');
+insert into t_board(no, title, writer, content) values(seq_t_board_no.nextval, '제목2입니다', '홍길동', '내용2입니다');
+
+commit;
