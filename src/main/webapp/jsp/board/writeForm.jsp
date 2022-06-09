@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="/Mission-Web/resource/js/jquery-3.6.0.min.js"></script>
+<script src="/kopo-Mission-Web/resource/js/jquery-3.6.0.min.js"></script>
 <script>
 	$(document).ready(function() {
 		$('#listBtn').click(function() {

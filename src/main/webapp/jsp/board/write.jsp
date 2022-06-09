@@ -1,3 +1,5 @@
+<%@page import="kr.ac.kopo.board.dao.BoardDAO"%>
+<%@page import="kr.ac.kopo.board.vo.BoardVO"%>
 <%@page import="kr.ac.kopo.util.JDBCClose"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="kr.ac.kopo.util.ConnectionFactory"%>
@@ -17,26 +19,16 @@ String title = request.getParameter("title");
 String writer = request.getParameter("writer");
 String content = request.getParameter("content");
 
-Connection conn = new ConnectionFactory().getConnection();
+BoardVO board = new BoardVO();
+board.setTitle(title);
+board.setWriter(writer);
+board.setContent(content);
 
-StringBuilder sql = new StringBuilder();
-sql.append("Insert into t_board(no, title, writer, content)");
-sql.append(" values(seq_t_board_no.nextVal, ?, ?, ?) ");
-
-PreparedStatement pstmt = conn.prepareStatement(sql.toString());
-pstmt.setString(1, title);
-pstmt.setString(2, writer);
-pstmt.setString(3, content);
-
-pstmt.executeUpdate();
-
+BoardDAO dao = new BoardDAO();
+dao.insertBoard(board);
 %>
 
 <script>
 	alert("새 글 등록을 완료하였습니다.");
 	location.href = "list.jsp";
 </script>
-
-<%
-JDBCClose.close(pstmt, conn);
-%>

@@ -3,6 +3,8 @@ package kr.ac.kopo.util;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+import kr.ac.kopo.secure.JDBCSecure;
+
 // 그냥 넘겨 준 것을 사용하겠다.. ConnectionFactory로 받아오지만, 오라클인지, mySql인지 알지 않아도 된다! 
 public class ConnectionFactory {
 
@@ -10,12 +12,9 @@ public class ConnectionFactory {
 
 		Connection conn = null;
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Class.forName(JDBCSecure.CONNECTION_NAME);
 
-			String url = "jdbc:oracle:thin:@192.168.119.119:1521:dink";
-			String user = "scott";
-			String password = "tiger";
-			conn = DriverManager.getConnection(url, user, password);
+			conn = DriverManager.getConnection(JDBCSecure.URL, JDBCSecure.USER, JDBCSecure.PASSWORD);
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,3 +1,6 @@
+<%@page import="kr.ac.kopo.board.vo.BoardVO"%>
+<%@page import="java.util.List"%>
+<%@page import="kr.ac.kopo.board.dao.BoardDAO"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="kr.ac.kopo.util.JDBCClose"%>
@@ -5,6 +8,7 @@
 <%@page import="java.sql.Connection"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%--
 	작업순서
@@ -13,14 +17,11 @@
  --%>
 
 <%
-Connection conn = new ConnectionFactory().getConnection();
-StringBuilder sql = new StringBuilder();
-sql.append("select no, title, writer, to_char(reg_date, 'yyyy-MM-dd') as reg_date ");
-sql.append(" from t_board ");
-sql.append(" order by no desc ");
+BoardDAO dao = new BoardDAO();
+List<BoardVO> list = dao.selectAll();
 
-PreparedStatement pstmt = conn.prepareStatement(sql.toString());
-ResultSet rs = pstmt.executeQuery();
+// 공유영역 등록
+pageContext.setAttribute("list", list);
 %>
 
 <!DOCTYPE html>
@@ -28,7 +29,7 @@ ResultSet rs = pstmt.executeQuery();
 <head>
 <meta charset="UTF-8">
 <title>게시물 목록</title>
-<script src="/Mission-Web/resource/js/jquery-3.6.0.min.js"></script>
+<script src="/kopo-Mission-Web/resource/js/jquery-3.6.0.min.js"></script>
 <script>
 	$(document).ready(function() {
 		$('#addBtn').click(function() {
@@ -50,29 +51,21 @@ ResultSet rs = pstmt.executeQuery();
 				<th width="20%">등록일</th>
 			</tr>
 
-			<%
-			while (rs.next()) {
-				int no = rs.getInt("no");
-				String title = rs.getString("title");
-				String writer = rs.getString("writer");
-				String regDate = rs.getString("reg_date");
-			%>
-			<tr>
-				<td><%=no%></td>
-				<td><a href="detail.jsp?no=<%=no%>"><%=title%></a></td>
-				<td><%=writer%></td>
-				<td><%=regDate%></td>
-			</tr>
-			<%
-			}
-			%>
+			<c:forEach items="${ list }" var="board">
+				<tr>
+					<td>${ board.no }</td>
+					<td>
+						<a href="detail.jsp?no=${ board.no }">
+							<c:out value="${ board.title }" />
+						</a>
+					</td>
+					<td><c:out value="${ board.writer }" /></td>
+					<td><c:out value="${ board.content }" /></td>
+				</tr>
+			</c:forEach>
 		</table>
 		<br>
 		<button id="addBtn">새글등록</button>
 	</div>
 </body>
 </html>
-
-<%
-JDBCClose.close(pstmt, conn);
-%>
