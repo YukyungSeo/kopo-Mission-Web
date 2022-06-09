@@ -14,7 +14,7 @@ pageContext.setAttribute("member", member);
 <head>
 <meta charset="UTF-8">
 <title>전체 회원 조회</title>
-<script src="/kopo-Mission-Web/resource/js/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	function onAction(type){
 		switch(type){
