@@ -14,6 +14,8 @@ pageContext.setAttribute("list", list);
 <head>
 <meta charset="UTF-8">
 <title>전체 회원 조회</title>
+<link rel="stylesheet" href="/kopo-Mission-Web/resource/css/layout.css">
+<link rel="stylesheet" href="/kopo-Mission-Web/resource/css/table.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function (){
@@ -24,32 +26,40 @@ $(document).ready(function (){
 </script>
 </head>
 <body>
-	<div align="center">
-		<hr>
-		<h2>전체 회원 조회</h2>
-		<hr>
-
-		<table border="1" style="width: 90%">
-			<tr>
-				<th>아이디</th>
-				<th>이름</th>
-				<th>이메일</th>
-				<th>타입</th>
-				<th>등록일</th>
-			</tr>
-			
-			<c:forEach items="${ list }" var="member">
+	<header>
+		<jsp:include page="/jsp/include/topMenu.jsp" />
+	</header>
+	<section>
+		<div align="center">
+			<hr>
+			<h2>전체 회원 조회</h2>
+			<hr>
+	
+			<table border="1" style="width: 100%">
 				<tr>
-					<td>${ member.id }</td>
-					<td><a href="detail.jsp?id=${ member.id }"><c:out value="${ member.name }" /></a></td>
-					<td><c:out value="${ member.emailId }@${ member.emailDomain }" /></td>
-					<td>${ member.type }</td>
-					<td>${ member.regDate }</td>
+					<th>아이디</th>
+					<th>이름</th>
+					<th>이메일</th>
+					<th>타입</th>
+					<th>등록일</th>
 				</tr>
-			</c:forEach>
-		</table>
-		<br>
-		<input id="logonBtn" type="button" value="회원추가">
-	</div>
+				
+				<c:forEach items="${ list }" var="member">
+					<tr>
+						<td>${ member.id }</td>
+						<td><a href="detail.jsp?id=${ member.id }"><c:out value="${ member.name }" /></a></td>
+						<td><c:out value="${ member.emailId }@${ member.emailDomain }" /></td>
+						<td>${ member.type }</td>
+						<td>${ member.regDate }</td>
+					</tr>
+				</c:forEach>
+			</table>
+			<br>
+			<input id="logonBtn" type="button" value="회원추가">
+		</div>
+	</section>
+	<footer>
+		<%@ include file="/jsp/include/footer.jsp" %>
+	</footer>
 </body>
 </html>

@@ -28,7 +28,8 @@ pageContext.setAttribute("board", board);
 <head>
 <meta charset="UTF-8">
 <title>board 상세</title>
-<script>
+<link rel="stylesheet" href="/kopo-Mission-Web/resource/css/layout.css">
+<link rel="stylesheet" href="/kopo-Mission-Web/resource/css/table.css"><script>
 	function doAction(type){
 		switch(type){
 		case 'U' :
@@ -47,41 +48,49 @@ pageContext.setAttribute("board", board);
 </script>
 </head>
 <body>
-	<div align="center">
-		<hr>
-		<h2>게시판 상세</h2>
-		<hr>
-		<br>
-		<table border="1" style="width:80%">
-			<tr>
-				<th width="25%">번호</th>
-				<td>${ board.no }</td>
-			</tr>
-			<tr>
-				<th width="25%">제목</th>
-				<td><c:out value="${ board.title }" /></td>
-			</tr>
-			<tr>
-				<th width="25%">작성자</th>
-				<td><c:out value="${ board.writer }" /></td>
-			</tr>
-			<tr>
-				<th width="25%">내용</th>
-				<td><c:out value="${ board.content }" /></td>
-			</tr>
-			<tr>
-				<th width="25%">조회수</th>
-				<td>${ board.viewCnt }</td>
-			</tr>
-			<tr>
-				<th width="25%">등록일</th>
-				<td>${ board.regDate }</td>
-			</tr>
-		</table>
-		<br>
-		<button onclick="doAction('U')">수 정</button>&nbsp;&nbsp;
-		<button onclick="doAction('D')">삭 제</button>&nbsp;&nbsp;
-		<button onclick="doAction('L')">목 록</button>&nbsp;&nbsp;
-	</div>
+	<header>
+		<jsp:include page="/jsp/include/topMenu.jsp" />
+	</header>
+	<section>
+		<div align="center">
+			<hr>
+			<h2>게시판 상세</h2>
+			<hr>
+			<br>
+			<table border="1" style="width:100%">
+				<tr>
+					<th width="25%">번호</th>
+					<td>${ board.no }</td>
+				</tr>
+				<tr>
+					<th width="25%">제목</th>
+					<td><c:out value="${ board.title }" /></td>
+				</tr>
+				<tr>
+					<th width="25%">작성자</th>
+					<td><c:out value="${ board.writer }" /></td>
+				</tr>
+				<tr>
+					<th width="25%">내용</th>
+					<td><c:out value="${ board.content }" /></td>
+				</tr>
+				<tr>
+					<th width="25%">조회수</th>
+					<td>${ board.viewCnt }</td>
+				</tr>
+				<tr>
+					<th width="25%">등록일</th>
+					<td>${ board.regDate }</td>
+				</tr>
+			</table>
+			<br>
+			<button onclick="doAction('U')">수 정</button>&nbsp;&nbsp;
+			<button onclick="doAction('D')">삭 제</button>&nbsp;&nbsp;
+			<button onclick="doAction('L')">목 록</button>&nbsp;&nbsp;
+		</div>
+	</section>
+	<footer>
+		<%@ include file="/jsp/include/footer.jsp" %>
+	</footer>
 </body>
 </html>
