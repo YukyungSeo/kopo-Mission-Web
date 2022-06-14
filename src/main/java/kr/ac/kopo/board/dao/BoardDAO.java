@@ -34,16 +34,16 @@ public class BoardDAO {
 
 			pstmt.setInt(1, no);
 			ResultSet rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				
+
+			if (rs.next()) {
+
 				int board_no = rs.getInt("no");
 				String title = rs.getString("title");
 				String writer = rs.getString("writer");
 				String content = rs.getString("content");
 				int viewCnt = rs.getInt("view_cnt");
 				String regDate = rs.getString("reg_date");
-						
+
 				BoardVO board = new BoardVO(board_no, title, writer, content, viewCnt, regDate);
 				return board;
 			}
@@ -51,7 +51,7 @@ public class BoardDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 
@@ -120,6 +120,26 @@ public class BoardDAO {
 			e.printStackTrace();
 		} finally {
 			JDBCClose.close(pstmt, conn);
+		}
+	}
+
+	/**
+	 * 조회수 증가
+	 */
+	public void updateViewCnt(int no) {
+
+		StringBuilder sql = new StringBuilder();
+		sql.append("update t_board set view_cnt = view_cnt + 1 ");
+		sql.append(" where no = ? ");
+
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());) {
+
+			pstmt.setInt(1, no);
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

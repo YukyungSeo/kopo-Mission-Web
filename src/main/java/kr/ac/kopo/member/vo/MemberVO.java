@@ -24,6 +24,12 @@ public class MemberVO {
 	public MemberVO() {
 	}
 
+	public MemberVO(String id, String password) {
+		super();
+		this.id = id;
+		this.password = password;
+	}
+
 	public MemberVO(String id, String name, String password, String emailId, String emailDomain, String tel1,
 			String tel2, String tel3, String post, String basicAddr, String detailAddr, String type, String regDate) {
 		super();

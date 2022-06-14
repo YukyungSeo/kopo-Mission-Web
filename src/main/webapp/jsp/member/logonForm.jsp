@@ -92,7 +92,7 @@
 						<td>
 						<select name="type">
 							<option value="U">User</option>
-							<option value="M">Manager</option>
+							<option value="S">Admin</option>
 						</select>
 						</td>
 					</tr>

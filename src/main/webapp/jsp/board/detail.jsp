@@ -19,6 +19,8 @@
 
 int no = Integer.parseInt(request.getParameter("no"));
 BoardDAO dao = new BoardDAO();
+/* if(request.getRequestURI().equals("/kopo-Mission-Web/jsp/board/detail.jsp"));
+dao.updateViewCnt(no); */
 BoardVO board = dao.selectByNo(no);
 
 pageContext.setAttribute("board", board);

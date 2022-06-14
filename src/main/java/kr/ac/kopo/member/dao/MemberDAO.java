@@ -129,4 +129,35 @@ public class MemberDAO {
 			e.printStackTrace();
 		}
 	}
+
+	public MemberVO login(MemberVO member) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select id, name, password, type ");
+		sql.append(" from t_member ");
+		sql.append(" where id = ? and password = ? ");
+
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());) {
+
+			pstmt.setString(1, member.getId());
+			pstmt.setString(2, member.getPassword());
+			ResultSet rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+
+				MemberVO user = new MemberVO();
+				user.setId(rs.getString("id"));
+				user.setName(rs.getString("name"));
+				user.setPassword(rs.getString("password"));
+				user.setType(rs.getString("type"));
+
+				return user;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

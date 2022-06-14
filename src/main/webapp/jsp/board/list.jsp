@@ -62,6 +62,7 @@ pageContext.setAttribute("list", list);
 						<td>${ board.no }</td>
 						<td>
 							<a href="detail.jsp?no=${ board.no }">
+							<%-- <a href="updateViewCnt.jsp?no=${ board.no }"> --%>
 								<c:out value="${ board.title }" />
 							</a>
 						</td>
@@ -71,7 +72,9 @@ pageContext.setAttribute("list", list);
 				</c:forEach>
 			</table>
 			<br>
-			<button id="addBtn">새글등록</button>
+			<c:if test="${ not empty user }">
+				<button id="addBtn">새글등록</button>
+			</c:if>
 		</div>
 	</section>
 	<footer>
