@@ -62,7 +62,6 @@ pageContext.setAttribute("list", list);
 						<td>${ board.no }</td>
 						<td>
 							<a href="detail.jsp?no=${ board.no }">
-							<%-- <a href="updateViewCnt.jsp?no=${ board.no }"> --%>
 								<c:out value="${ board.title }" />
 							</a>
 						</td>
