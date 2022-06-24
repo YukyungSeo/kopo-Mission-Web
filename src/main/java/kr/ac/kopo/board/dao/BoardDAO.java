@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.ac.kopo.board.vo.BoardFileVO;
 import kr.ac.kopo.board.vo.BoardVO;
 import kr.ac.kopo.util.ConnectionFactory;
 import kr.ac.kopo.util.JDBCClose;
@@ -68,7 +69,7 @@ public class BoardDAO {
 		try {
 			conn = new ConnectionFactory().getConnection();
 			StringBuilder sql = new StringBuilder();
-			sql.append("select no, title, writer, to_char(reg_date, 'yyyy-MM-dd') as reg_date ");
+			sql.append("select no, title, writer, view_cnt, to_char(reg_date, 'yyyy-MM-dd') as reg_date ");
 			sql.append(" from t_board ");
 			sql.append(" order by no desc ");
 
@@ -79,9 +80,10 @@ public class BoardDAO {
 				int no = rs.getInt("no");
 				String title = rs.getString("title");
 				String writer = rs.getString("writer");
+				int viewCnt = rs.getInt("view_cnt");
 				String regDate = rs.getString("reg_date");
 
-				BoardVO board = new BoardVO(no, title, writer, null, 0, regDate);
+				BoardVO board = new BoardVO(no, title, writer, null, viewCnt, regDate);
 				list.add(board);
 			}
 		} catch (Exception e) {
@@ -91,6 +93,28 @@ public class BoardDAO {
 		}
 
 		return list;
+	}
+
+	/**
+	 * 새글등록을 위한 seq_t_board_no의 시퀀스 추출
+	 */
+	public int selectBoardNo() {
+
+		String sql = "select seq_t_board_no.nextVal from dual ";
+
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);) {
+
+			ResultSet rs = pstmt.executeQuery();
+			rs.next();
+			return rs.getInt(1);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return 0;
+
 	}
 
 	/**
@@ -107,12 +131,15 @@ public class BoardDAO {
 
 			StringBuilder sql = new StringBuilder();
 			sql.append("Insert into t_board(no, title, writer, content)");
-			sql.append(" values(seq_t_board_no.nextVal, ?, ?, ?) ");
+			sql.append(" values( ?, ?, ?, ?) ");
 
 			pstmt = conn.prepareStatement(sql.toString());
-			pstmt.setString(1, board.getTitle());
-			pstmt.setString(2, board.getWriter());
-			pstmt.setString(3, board.getContent());
+
+			int loc = 1;
+			pstmt.setInt(loc++, board.getNo());
+			pstmt.setString(loc++, board.getTitle());
+			pstmt.setString(loc++, board.getWriter());
+			pstmt.setString(loc++, board.getContent());
 
 			pstmt.executeUpdate();
 
@@ -137,9 +164,67 @@ public class BoardDAO {
 
 			pstmt.setInt(1, no);
 			pstmt.executeUpdate();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	// --------------------------------------------------
+	// 첨부파일 CRUD
+	// --------------------------------------------------
+	public void insertBoardFile(BoardFileVO fileVO) {
+
+		StringBuilder sql = new StringBuilder();
+		sql.append("insert into t_board_file( ");
+		sql.append("	no, board_no, file_ori_name, file_save_name, file_size) ");
+		sql.append("values(seq_t_board_file_no.nextval, ?, ?, ?, ?) ");
+
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());) {
+
+			int loc = 1;
+			pstmt.setInt(loc++, fileVO.getBoardNo());
+			pstmt.setString(loc++, fileVO.getFileOriName());
+			pstmt.setString(loc++, fileVO.getFileSaveName());
+			pstmt.setInt(loc++, fileVO.getFileSize());
+
+			pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public List<BoardFileVO> selectFileByNo(int boardNo) {
+
+		List<BoardFileVO> fileList = new ArrayList<>();
+
+		StringBuilder sql = new StringBuilder();
+		sql.append("select no, file_ori_name, file_save_name, file_size ");
+		sql.append("	from  t_board_file ");
+		sql.append(" where board_no = ? ");
+
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());) {
+
+			pstmt.setInt(1, boardNo);
+
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				BoardFileVO fileVO = new BoardFileVO();
+				fileVO.setNo(rs.getInt("no"));
+				fileVO.setFileOriName(rs.getString("file_ori_name"));
+				fileVO.setFileSaveName(rs.getString("file_save_name"));
+				fileVO.setFileSize(rs.getInt("file_size"));
+
+				fileList.add(fileVO);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return fileList;
 	}
 }

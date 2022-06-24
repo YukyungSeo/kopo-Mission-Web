@@ -1,3 +1,5 @@
+<%@page import="kr.ac.kopo.board.vo.BoardFileVO"%>
+<%@page import="java.util.List"%>
 <%@page import="kr.ac.kopo.board.vo.BoardVO"%>
 <%@page import="kr.ac.kopo.board.dao.BoardDAO"%>
 <%@page import="java.sql.ResultSet"%>
@@ -24,9 +26,16 @@ BoardDAO dao = new BoardDAO();
 // 윗줄 보단 아래 방식(get)이 더 많이 쓰임
 if (request.getParameter("fromUpdate") == null)
 	dao.updateViewCnt(no);
+
+// 1. 게시물 조회
 BoardVO board = dao.selectByNo(no);
 
+// 2. 첨부파일 조회
+List<BoardFileVO> fileList = dao.selectFileByNo(no);
+
+// 3. 공유영역 등록
 pageContext.setAttribute("board", board);
+pageContext.setAttribute("fileList", fileList);
 %>
 <!DOCTYPE html>
 <html>
@@ -87,6 +96,18 @@ pageContext.setAttribute("board", board);
 				<tr>
 					<th width="25%">등록일</th>
 					<td>${ board.regDate }</td>
+				</tr>
+				<tr>
+					<th width="25%">첨부파일</th>
+					<td>
+						<c:forEach items="${ fileList }" var="fileVO">
+							<%-- <a href="/kopo-Mission-Web/upload/${ fileVO.fileSaveName }"> --%>
+							<a href="downloadFile.jsp?fileSaveName=${ fileVO.fileSaveName }">
+							${ fileVO.fileOriName }
+							</a>
+							(${ fileVO.fileSize })<br>
+						</c:forEach>
+					</td>
 				</tr>
 			</table>
 			<br>

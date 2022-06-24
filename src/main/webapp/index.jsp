@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Main Home</title>
 <link rel="stylesheet" href="/kopo-Mission-Web/resource/css/layout.css">
 <link rel="stylesheet" href="/kopo-Mission-Web/resource/css/table.css">
 </head>

@@ -38,6 +38,19 @@ pageContext.setAttribute("list", list);
 			location.href = 'writeForm.jsp';
 		});
 	});
+	
+	function checkLogin(boardNo){
+		<c:choose>
+			<c:when test="${ empty user }">
+				if(confirm('로그인 후 사용가능합니다\n로그인페이지로 이동할까요?')){
+					location.href = '/kopo-Mission-Web/jsp/login/login.jsp';
+				}
+			</c:when>
+			<c:otherwise>
+				location.href = 'detail.jsp?no=' + boardNo;
+			</c:otherwise>
+		</c:choose>
+	}
 </script>
 </head>
 <body>
@@ -54,6 +67,7 @@ pageContext.setAttribute("list", list);
 					<th width="7%">번호</th>
 					<th>제목</th>
 					<th width="16%">작성자</th>
+					<th width="7%">조회수</th>
 					<th width="20%">등록일</th>
 				</tr>
 	
@@ -61,12 +75,18 @@ pageContext.setAttribute("list", list);
 					<tr <c:if test="${ loop.count mod 2 eq 0 }">class="even"</c:if>>
 						<td>${ board.no }</td>
 						<td>
+							<a href="javascript:checkLogin(${ board.no })">
+								<c:out value="${ board.title }" />
+							</a>
+						<%-- 
 							<a href="detail.jsp?no=${ board.no }">
 								<c:out value="${ board.title }" />
 							</a>
+						 --%>
 						</td>
 						<td><c:out value="${ board.writer }" /></td>
-						<td><c:out value="${ board.content }" /></td>
+						<td><c:out value="${ board.viewCnt }" /></td>
+						<td><c:out value="${ board.regDate }" /></td>
 					</tr>
 				</c:forEach>
 			</table>
