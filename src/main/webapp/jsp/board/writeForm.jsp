@@ -90,8 +90,9 @@
 					</tr>
 					<tr>
 						<th width="25%">첨부파일</th>
-						<td><input type="file" name="attachfile1"><br> <input
-							type="file" name="attachfile2"></td>
+						<td>
+							<input type="file" name="attachfile1"><br> 
+							<input type="file" name="attachfile2"></td>
 					</tr>
 				</table>
 				<br> <input type="submit" value="새글등록">&nbsp;&nbsp;

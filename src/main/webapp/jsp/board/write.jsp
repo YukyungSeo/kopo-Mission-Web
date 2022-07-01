@@ -20,7 +20,7 @@
 */
 request.setCharacterEncoding("utf-8");
 
-String saveFolder = "D:/Lecture/web-workspace/kopo-Mission-Web/src/main/webapp/upload";
+String saveFolder = "D:/Lecture/web-workspace/kopo-Bootstrap/src/main/webapp/upload";
 MultipartRequest multi = new MultipartRequest(request, saveFolder, 1024 * 1024 * 3, "utf-8", new KopoFileNamePolicy());
 
 /* 

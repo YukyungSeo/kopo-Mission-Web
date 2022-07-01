@@ -13,7 +13,7 @@ pageContext.setAttribute("member", member);
 <html>
 <head>
 <meta charset="UTF-8">
-<title>전체 회원 조회</title>
+<title>회원 상세 정보</title>
 <link rel="stylesheet" href="/kopo-Mission-Web/resource/css/layout.css">
 <link rel="stylesheet" href="/kopo-Mission-Web/resource/css/table.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
